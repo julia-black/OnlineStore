@@ -1,17 +1,12 @@
 package src.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 import src.model.Good;
 import src.model.GoodsDAO;
-import sun.rmi.runtime.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -45,18 +40,6 @@ public class GoodsController {
         return good;
     }
 
-  //@RequestMapping("/get_by_id")
-  //public Good getById(Integer id) {
-  //    Good good;
-  //    try {
-  //        good = goodsDAO.findById(id);
-  //    }
-  //    catch (Exception ex) {
-  //        return null;
-  //    }
-  //    return good;
-  //}
-
     @RequestMapping("/get_by_id")
     public String getById(@RequestParam("id") Integer id) {
         Good good;
@@ -66,13 +49,24 @@ public class GoodsController {
         catch (Exception ex) {
             return null;
         }
-        return good.getName() + " " + good.getPrice();
+        return good.getName() + "|" + good.getPrice();
     }
      @RequestMapping("/get_all_goods")
      public List<Good> getAllGoods(){
          List<Good> goods = (List<Good>) goodsDAO.findAll();
          return goods;
      }
+
+    @RequestMapping("/get_all_goods_string")
+    public String getAllGoodsString(){
+        List<Good> goods = (List<Good>) goodsDAO.findAll();
+        String s = "";
+        for (Good good:
+             goods) {
+            s += good.getId() + "&" + good.getName() + "&" + good.getPrice() + "-";
+        }
+        return s;
+    }
 
      @RequestMapping("/add_to_cart")
      public String addToCart(Integer id) {
