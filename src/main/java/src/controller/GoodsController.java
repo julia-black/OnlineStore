@@ -51,6 +51,7 @@ public class GoodsController {
         }
         return good.getName() + "|" + good.getPrice();
     }
+
      @RequestMapping("/get_all_goods")
      public List<Good> getAllGoods(){
          List<Good> goods = (List<Good>) goodsDAO.findAll();
@@ -67,18 +68,6 @@ public class GoodsController {
         }
         return s;
     }
-
-     @RequestMapping("/add_to_cart")
-     public String addToCart(Integer id) {
-         Good good;
-             try {
-                 good = goodsDAO.findById(id);
-                 //Подключение к лич кабинету, добавление  к нему в корзину good
-             } catch (Exception ex) {
-                 return "Good with id = " + id + " not found";
-             }
-         return "Good + " + good.getName() + "added in Your cart";
-         }
 
 
     @Autowired
