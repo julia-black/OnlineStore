@@ -2,6 +2,7 @@ package src.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import src.model.Good;
@@ -12,7 +13,7 @@ import java.util.List;
 @RestController
 public class GoodsController {
 
-    @RequestMapping("/create")
+    @RequestMapping(method = RequestMethod.POST, value = "/goods")
     public String create(String name, Integer price) {
 
 
@@ -27,8 +28,8 @@ public class GoodsController {
         return "Good succesfully created! (id = " + good.getId() + ")";
     }
 
-    @RequestMapping("/get_by_name")
-    public Good getByName(String name) {
+    @RequestMapping(method = RequestMethod.GET, value = "/goods", params = {"name"})
+    public Good getByName(@RequestParam("name") String name) {
         String goodId;
         Good good;
         try {
@@ -40,7 +41,7 @@ public class GoodsController {
         return good;
     }
 
-    @RequestMapping("/get_by_id")
+    @RequestMapping(method = RequestMethod.GET, value = "/goods", params = {"id"})
     public String getById(@RequestParam("id") Integer id) {
         Good good;
         try {
@@ -49,16 +50,16 @@ public class GoodsController {
         catch (Exception ex) {
             return null;
         }
-        return good.getName() + "|" + good.getPrice();
+        return good.getName() + " " + good.getPrice();
     }
 
-     @RequestMapping("/get_all_goods")
+     @RequestMapping(method = RequestMethod.GET, value = "/goods")
      public List<Good> getAllGoods(){
          List<Good> goods = (List<Good>) goodsDAO.findAll();
          return goods;
      }
 
-    @RequestMapping("/get_all_goods_string")
+    @RequestMapping(method=RequestMethod.GET,value = "/goods/string")
     public String getAllGoodsString(){
         List<Good> goods = (List<Good>) goodsDAO.findAll();
         String s = "";
@@ -68,7 +69,6 @@ public class GoodsController {
         }
         return s;
     }
-
 
     @Autowired
     private GoodsDAO goodsDAO;
