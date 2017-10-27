@@ -28,8 +28,8 @@ public class GoodsController {
         return "Good succesfully created! (id = " + good.getId() + ")";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/goods", params = {"name"})
-    public Good getByName(@RequestParam("name") String name) {
+    @RequestMapping(method = RequestMethod.GET, value = "/goods/{name}")
+    public Good getByName(@PathVariable("name") String name) {
         String goodId;
         Good good;
         try {
@@ -41,8 +41,8 @@ public class GoodsController {
         return good;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/goods", params = {"id"})
-    public String getById(@RequestParam("id") Integer id) {
+    @RequestMapping(method = RequestMethod.GET, value = "/goods/{id}")
+    public String getById(@PathVariable("id") Integer id) {
         Good good;
         try {
             good = goodsDAO.findById(id);
@@ -53,18 +53,18 @@ public class GoodsController {
         return good.getName() + " " + good.getPrice();
     }
 
-     @RequestMapping(method = RequestMethod.GET, value = "/goods")
-     public List<Good> getAllGoods(){
-         List<Good> goods = (List<Good>) goodsDAO.findAll();
-         return goods;
-     }
+    @RequestMapping(method = RequestMethod.GET, value = "/goods")
+    public List<Good> getAllGoods(){
+        List<Good> goods = (List<Good>) goodsDAO.findAll();
+        return goods;
+    }
 
-    @RequestMapping(method=RequestMethod.GET,value = "/goods/string")
+    @RequestMapping(method= RequestMethod.GET,value = "/goods/string")
     public String getAllGoodsString(){
         List<Good> goods = (List<Good>) goodsDAO.findAll();
         String s = "";
         for (Good good:
-             goods) {
+                goods) {
             s += good.getId() + "&" + good.getName() + "&" + good.getPrice() + "-";
         }
         return s;
